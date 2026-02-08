@@ -1,0 +1,3 @@
+login, registracia, relacna databaza (postgreSQL), rest endpoint, 
+pridavat prispevky, websocket/message system (example: rabbitMQ),
+frontend framework, open API naintegrovat, ChartJS data, GraphQL, logovanie
