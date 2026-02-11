@@ -1,18 +1,35 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function LoginPage() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        if (email === "user@site.com" && password === "1234") {
-            navigate("/banking");
-        } else {
-            alert("Invalid credentials");
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/api/login",
+                { username, password },
+                { headers: { "Content-Type": "application/json" } }
+            );
+
+            if (response.data.status === "OK") {
+                navigate("/banking");
+            }            
+
+        } catch (error) {
+            if (error.response) {
+                // Server responded with 401
+                alert("Wrong username or password!");
+            } else {
+                // Network / CORS issue
+                alert("Cannot connect to server. Is it running?");
+            }
         }
     };
 
@@ -20,12 +37,12 @@ export default function LoginPage() {
         <div className="login">
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="name">Name:</label>
                 <input 
-                    type="email" 
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="text" 
+                    id="name"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                 />
 
