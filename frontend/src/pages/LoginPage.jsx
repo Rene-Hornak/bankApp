@@ -1,7 +1,7 @@
-import axios from "axios";
+import { login } from "../api";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 export default function LoginPage() {
     const [username, setUsername] = useState("");
@@ -9,27 +9,18 @@ export default function LoginPage() {
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
+        // Prevent page refresh
         e.preventDefault();
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/api/login",
-                { username, password },
-                { headers: { "Content-Type": "application/json" } }
-            );
-
-            if (response.data.status === "OK") {
-                navigate("/banking");
-            }            
-
+            // Send POST request to backend login endpoint
+            const response = await login(username, password);
+            // Store token in browser storage
+            localStorage.setItem("token", response.data.token);
+            // redirect to protected banking page
+            navigate("/banking");
         } catch (error) {
-            if (error.response) {
-                // Server responded with 401
-                alert("Wrong username or password!");
-            } else {
-                // Network / CORS issue
-                alert("Cannot connect to server. Is it running?");
-            }
+            alert("Login failed");
         }
     };
 

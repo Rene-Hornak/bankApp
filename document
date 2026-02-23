@@ -1,3 +1,10 @@
 login, registracia, relacna databaza (postgreSQL), rest endpoint, 
 pridavat prispevky, websocket/message system (example: rabbitMQ),
 frontend framework, open API naintegrovat, ChartJS data, GraphQL, logovanie
+
+backend (Java) run
+./mvnw clean install
+./mvnw spring-boot:run
+
+frontend (react) run
+npm run dev
